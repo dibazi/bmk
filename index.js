@@ -88,7 +88,7 @@ app.post('/register', (req, res) => {
         }
 
         // Insert the user into the database
-        pool.query('INSERT INTO users (user_name, email, password) VALUES (?, ?, ?)', [user_name, email,hash], (err, result) => {
+        pool.query('INSERT INTO mfp_users (user_name, email, password) VALUES (?, ?, ?)', [user_name, email,hash], (err, result) => {
             if (err) {
                 console.log(err);
                 res.redirect('/register');
@@ -114,7 +114,7 @@ app.get('/', (req, res) => {
 app.post('/login', (req, res) => {
   const { user_name, password } = req.body;
 
-  pool.query('SELECT * FROM users WHERE user_name = ?', [user_name], async (error, results) => {
+  pool.query('SELECT * FROM mfp_users WHERE user_name = ?', [user_name], async (error, results) => {
     if (error) {
       console.log(error);
       res.redirect('/login');
