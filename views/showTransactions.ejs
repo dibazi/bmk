@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Transaction</title>
+    <style>
+            .debit-total {
+            color: red;
+            }
+
+            .credit-total {
+            color: green;
+            }
+        .debit-transaction {
+          color: red;
+        }
+    
+        .credit-transaction {
+          color: green;
+        }
+    
+        .total-row {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+        }
+    
+        .total-label {
+          flex: 0 0 100px;
+        }
+      </style>
+  </head>
+  <body class="font-Poppins">
+    <!-- Header -->
+    <header>
+      <nav class="container flex items-center py-4 mt-4 sm:mt-12">
+        <div class="py-1"></div>
+      
+        <!-- Dropdown menu -->
+        <div class="relative ml-auto sm:hidden">
+          <button type="button" class="flex items-center text-bookmark-blue focus:outline-none" onclick="toggleDropdown()">
+            <i class="text-2xl fas fa-bars"></i>
+          </button>
+          <ul class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg hidden" id="dropdownMenu">
+            <li class="cursor-pointer py-2 px-4 hover:bg-gray-200"><a href="/check_outs">CheckOutS</a></li>
+            <li class="cursor-pointer py-2 px-4 hover:bg-gray-200"><a href="/check_ins">CheckInS</a></li>
+            <li class="cursor-pointer py-2 px-4 hover:bg-gray-200"><a href="/dashboard">Dashboard</a></li>
+            <li class="text-bookmark-red cursor-pointer py-2 px-4 hover:bg-gray-200"><a href="/logout">logout</a></li>
+          </ul>
+        </div>
+      
+        <!-- Menu items -->
+        <ul class="hidden sm:flex flex-1 justify-end items-center gap-12 text-bookmark-blue uppercase text-xs" id="menuItems">
+            <li class="cursor-pointer"><a href="/bmkclients">clients</a></li>
+          <li class="cursor-pointer"><a href="/logout">Logout</a></li>
+          <li class="cursor-pointer py-2 px-4 hover:bg-gray-200"><a href="/logout" class="text-bookmark-red"></a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- FAQ -->
+<section class="bg-bookmark-white py-20">
+<div class="container">
+  <div class="lg:w-2/4 mx-auto py-8 px-6 bg-white rounded-xl">
+    <h1 class="font-bold text-5xl text-center mb-8">Transactions</h1>
+    <hr>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <a href="/add-transaction">Add transactions</a>
+     </button>
+     <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b">ID</th>
+              <th class="py-2 px-4 border-b">Client Name</th>
+              <th class="py-2 px-4 border-b">Transaction Type</th>
+              <th class="py-2 px-4 border-b">Amount</th>
+              <th class="py-2 px-4 border-b">Transaction Date</th>
+              <th class="py-2 px-4 border-b">Transaction Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% transactions.forEach(function(transaction) { %>
+              <tr>
+                <td class="py-2 px-4 border-b"><%= transaction.id %></td>
+                <td class="py-2 px-4 border-b"><%= transaction.client_name %></td>
+                <td class="py-2 px-4 border-b">
+                  <% if (transaction.transaction_type === 'debit') { %>
+                    <span class="debit-transaction"><%= transaction.transaction_type %></span>
+                  <% } else if (transaction.transaction_type === 'credit') { %>
+                    <span class="credit-transaction"><%= transaction.transaction_type %></span>
+                  <% } %>
+                </td>
+                <td class="py-2 px-4 border-b"><%= transaction.amount %></td>
+                <td class="py-2 px-4 border-b"><%= transaction.created_at.toLocaleDateString() %></td>
+                <td class="py-2 px-4 border-b"><%= transaction.created_at.toLocaleTimeString() %></td>
+              </tr>
+            <% }) %>
+            <tr>
+              <td class="py-2 px-4 border-b font-bold" colspan="4">Total Debit:</td>
+              <td class="py-2 px-4 border-b"></td>
+              <td class="py-2 px-4 border-b"></td>
+              <td class="py-2 px-4 border-b">
+                <span class="debit-total"><%= debitTotal %></span>
+              </td>
+            </tr>
+            <tr>
+              <td class="py-2 px-4 border-b font-bold" colspan="4">Total Credit:</td>
+              <td class="py-2 px-4 border-b"></td>
+              <td class="py-2 px-4 border-b"></td>
+              <td class="py-2 px-4 border-b">
+                <span class="credit-total"><%= creditTotal %></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        </div>
+</div>
+</section>
+
+</body>
+</html>
